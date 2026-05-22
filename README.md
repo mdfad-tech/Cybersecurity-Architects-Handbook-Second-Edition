@@ -3,7 +3,7 @@
 > **An Architect's Guide to Designing, Building, and Defending the Modern Enterprise**
 > by **Lester Nichols** · Foreword by **Corey Ball** (author of *Hacking APIs*) · Published by **Packt** (April 30, 2026)
 
-This is the official code and supplemental-download repository for the **Second Edition** of *The Cybersecurity Architect's Handbook*. It hosts the companion materials referenced throughout the book — most notably the **Chapter 9 supplemental download**, which contains the full set of hands-on labs, exercises, and product showcases that could not fit within the printed page count.
+This is the official code and supplemental-download repository for the **Second Edition** of *The Cybersecurity Architect's Handbook*. It hosts the companion materials referenced throughout the book — most notably the **Chapter 9 supplemental download**, which contains a full set of hands-on labs, exercises, and product showcases that could not fit within the printed page count.
 
 [![Book](https://img.shields.io/badge/book-2nd%20Edition-blue)](https://www.amazon.com/Cybersecurity-Architects-Handbook-architects-enterprise/dp/180610539X/)
 [![Publisher](https://img.shields.io/badge/publisher-Packt-orange)]()
@@ -75,7 +75,7 @@ This repository follows Packt's standard companion-repo layout. Per-chapter code
 ```
 .
 ├── README.md
-├── Chapter_XX/                              # Per-chapter code snippets and assets referenced in the book
+├── Chapter_XX/                              # Per-chapter labs, code snippets and assets referenced in the book
 
 ```
 
