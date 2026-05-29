@@ -42,7 +42,7 @@ The supplement is a single document that introduces the foundational concepts le
 
 ### Lab & Exercise Topics
 
-All of the labs and exercises for each Chapter are located within their respective directories. Chapter 9 is organized **as topics within the single supplemental download document and category domain labs** — there are no separate per-category folders in this repository. Within the document they are grouped into the following categories, each pairing a domain narrative with one or more complete, build-it-yourself labs:
+All of the labs and exercises for each Chapter are located within their respective directories. Chapter 9 is organized **as topics within the single supplemental download document and category domain labs** — there are no separate per-category folders in this repository. Within the folder they are grouped into the following categories, each pairing a domain narrative with one or more complete, build-it-yourself labs:
 
 1. **Threat Modeling and Risk** — Microsoft Threat Modeling Tool, OWASP Threat Dragon, and translating architecture and data flows into a prioritized risk picture (e.g., via STRIDE).
 2. **Network Security Controls** — intrusion detection and prevention with Snort, and firewall/segmentation control with OPNsense.
