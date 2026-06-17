@@ -7,6 +7,9 @@ from siem_source import scrub          # reuse the Lab 1 redaction pass
 
 MODEL = "claude-sonnet-4-6"            # denser reasoning than Lab 1
 PING_MODEL = "claude-haiku-4-5-20251001"   # cheap model for the credential preflight
+# Per-host plans grow with finding count; 1500 truncates hosts with ~20+
+# findings, producing cut-off JSON. Generous default, overridable per run.
+MAX_TOKENS = int(os.environ.get("VULN_MAX_TOKENS", "8192"))
 client = anthropic.Anthropic()
 
 
@@ -36,17 +39,35 @@ def preflight():
         sys.exit(f"Cannot reach the Anthropic API (network / outbound 443?): {e}")
 
 
+def _sev(f):
+    try:
+        return float(f.get("severity") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
 def plan_for_host(host, findings):
     # Scan descriptions can echo detected credentials; redact before sending.
     findings = [{k: scrub(v) for k, v in f.items()} for f in findings]
+    # Most severe first: if the model ever runs short, the important findings
+    # are the ones that made it into the plan.
+    findings.sort(key=_sev, reverse=True)
+
     resp = client.messages.create(
         model=MODEL,
-        max_tokens=1500,
+        max_tokens=MAX_TOKENS,
         system=VULN_SYSTEM,
         messages=[{"role": "user",
                    "content": f"Host: {host}\nFindings:\n" +
                               json.dumps(findings, indent=2)}],
     )
+    # Catch truncation explicitly -- otherwise a cut-off plan surfaces as an
+    # opaque "Expecting ',' delimiter" JSON error far from the real cause.
+    if resp.stop_reason == "max_tokens":
+        raise ValueError(
+            f"plan truncated at {MAX_TOKENS} tokens for {len(findings)} findings "
+            f"-- raise VULN_MAX_TOKENS")
+
     raw = resp.content[0].text.strip()
     start, end = raw.find("{"), raw.rfind("}")
     return json.loads(raw[start:end + 1])
